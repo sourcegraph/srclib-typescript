@@ -1,12 +1,15 @@
 import * as path from "path";
 import * as ts from "typescript";
 
+/**
+ * Class saves info about full kind names used for Definitions
+ */
 export class DefKind {
     static CLASS: string = "class";
     static FUNC: string = "function";
     static METHOD: string = "method";
     static VAR: string = "var";
-    static PARAM: string = "param";
+    static PARAM: string = "parameter";
     static FIELD: string = "property";
     static INTERFACE: string = "interface";
     static ENUM: string = "enum";
@@ -14,8 +17,18 @@ export class DefKind {
     static PROPERTY_SIGNATURE = "property signature";
     static METHOD_SIGNATURE = "method signature";
     static MODULE = "module";
-    static IMPORT_VAR = "imported var"
+    static IMPORT_VAR = "imported var";
+    static TYPE_ALIAS = "type alias";
+    static TYPE_PARAM = "type parameter";
+    static EXPORT_SPECIFIER = "exported name";
+    static GET_ACCESSOR = "get accessor";
+    static SET_ACCESSOR = "set accessor";
 }
+
+/**
+ * Creates function string representation for path
+ * @param  {ts.Declaration} decl
+ */
 export function formFnSignatureForPath(decl: ts.Declaration): string {
     let resStr = decl.name.getText() + "__";
     let signDecl = <ts.SignatureDeclaration>decl;
@@ -29,6 +42,10 @@ export function formFnSignatureForPath(decl: ts.Declaration): string {
     return replaceSpecialSymbols(resStr);
 }
 
+/**
+ * Delete special symbols in fn signatures
+ * @param  {string} sig - function signature
+ */
 function replaceSpecialSymbols(sig: string): string {
     return sig.trim().replace(/;\s*/g, "").replace(/:\s*/g, "_").replace(/ \s*/g, "").
         replace(/=>\s*/g, "_").replace(/<\s*/g, "_").replace(/>\s*/g, "_").
@@ -40,6 +57,9 @@ export var PATH_SEPARATOR: string = ".";
 
 export var DATA_DOC_SEPARATOR: string = " ";
 
+/**
+ * Utils for path formatting
+ */
 export function formPath(scope: string, element, addToTheEnd: boolean = false): string {
     if (addToTheEnd) {
         return (scope === "") ? element : scope + PATH_SEPARATOR + element;
