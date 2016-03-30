@@ -1,7 +1,6 @@
 SRC = $(shell /usr/bin/find ./src -type f)
-DOCKER_TAG = $(shell git rev-parse --short HEAD)
 
-.PHONY: default install install-dep test test-gen clean docker-image release
+.PHONY: default install install-dep test test-gen clean
 
 default: install-dep install
 
@@ -21,9 +20,3 @@ test-gen: install
 
 clean:
 	rm -f .bin/*.js
-
-docker-image:
-	docker build -t srclib/srclib-typescript:$(DOCKER_TAG) .
-
-release: docker-image
-	docker push srclib/srclib-typescript:$(DOCKER_TAG)
