@@ -27,12 +27,6 @@ export class SourceUnit {
     Data:{
         [key: string]: any
     };
-    Config:{
-        [key: string]: any
-    };
-    Ops:{
-        [key: string]: ToolRef
-    };
 
     public static readSourceUnit(callback:(err:Error, data?:SourceUnit) => void, fd:any):void {
         var data = '';
